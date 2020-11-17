@@ -1,0 +1,206 @@
+\documentclass[12pt]{report}
+\usepackage{natbib}
+\usepackage{url}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{{images/}}
+\usepackage{parskip}
+\usepackage{fancyhdr}
+\usepackage{vmargin}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage[super]{nth}
+\usepackage{rotating}
+\usepackage{tikz}
+\usepackage{lscape}
+\usepackage{geometry}
+\usepackage{caption}
+\usepackage{makecell}
+\usepackage{subcaption}
+\usepackage[page]{appendix}
+\usepackage{minted}
+\usepackage{verbatim}
+\setcounter{secnumdepth}{4}
+
+\usepackage{hyperref}
+\usepackage[xindy]{glossaries} 
+\hypersetup{
+    colorlinks=true, % false: boxed links; true: colored links
+    linkcolor=black, % color of internal links
+    citecolor=black, % color of links to bibliography
+    filecolor=black, % color of file links
+    urlcolor=black % color of external links
+}
+%\renewcommand*{\glstextformat}[1]{\textcolor{black}{#1}}
+\renewcommand{\glstextformat}[1]{\textit{#1}}
+
+
+\setmarginsrb{3 cm}{2.5 cm}{3 cm}{2.5 cm}{1 cm}{1.5 cm}{1 cm}{1.5 cm}
+\title{ML Cheatsheet}								% Title
+\author{Axel Mendoza}								% Author
+\date{November 17, 2020}											% Date
+
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\let\thedate\@date
+\makeatother
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\theauthor}
+\lhead{\thetitle}
+\cfoot{\thepage}
+
+\let\origdoublepage\cleardoublepage
+\newcommand{\clearemptydoublepage}{%
+  \clearpage
+  {\pagestyle{empty}\origdoublepage}%
+}
+
+\input{glossary}
+\makeglossaries
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{titlepage}
+	\centering
+    \includegraphics[width=0.51\linewidth]{images/epita_logo.png}\\[2.0 cm]	% University Logo
+    \textsc{\Large Introducing}\\[0.4 cm]
+    %\textsc{{\large Confidential Report}}\\[0.2 cm]				% Course Name
+	\rule{\linewidth}{0.2 mm} \\[0.4 cm]
+	{ \huge \bfseries \thetitle}\\
+	\rule{\linewidth}{0.2 mm} \\[0.6 cm]
+	
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushleft} \large
+			\emph{Author:}\\
+			\theauthor
+			\end{flushleft}
+			\end{minipage}~
+			\begin{minipage}{0.4\textwidth}
+			\begin{flushright} \large
+			\emph{College:} \\
+            Epita 2018									% Your Student Number
+		\end{flushright}
+		
+	\end{minipage}\\[0.6 cm]
+	
+	{\large \thedate}\\[2 cm]
+    \includegraphics[width=0.45\linewidth]{images/58065.jpg}\\[2.0 cm]	% University Logo
+    %\includegraphics[width=0.45\linewidth]{engie_lab.png}	% University Logo
+	\vfill
+	
+\end{titlepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+{
+\tableofcontents
+}
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Exploratory data analysis}
+    \section{Section 1}
+    
+\chapter{Machine Learning}
+\chapter{Deep Learning}
+
+    
+        %A figure
+        %\begin{figure}[ht]
+        %    \centering
+        %    \includegraphics[width=1\textwidth]{engie_lab.png}
+        %    \caption{Example of human \gls{re-id} data labeling task}
+        %\end{figure}
+        %
+        %Formula in line $\displaystyle \mathbf{w} \cdot \mathbf{x}$.
+        %Formula with caption
+        
+        %\begin{equation}
+        %H[n]=\begin{cases} 0, & n < 0, \\ 1, & n \ge 0, \end{cases}
+        %\end{equation}
+        %\subsection{Sub Section 1}\label{subsec1}
+        %    %A glossary entry \gls{MLP}.
+        %    %Two figures side by side.
+        %    \begin{figure}[ht]
+        %    \centering
+        %    \begin{minipage}{.5\textwidth}
+        %        \centering
+        %        \includegraphics[width=1\textwidth]{epita_logo.png}
+        %        \captionof{figure}{Convolution of stride 1}
+        %        \label{fig:convstrideone}
+        %    \end{minipage}%
+        %    \begin{minipage}{.5\textwidth}
+        %        \centering
+        %        \includegraphics[width=1\textwidth]{engie_lab.png}
+        %        \captionof{figure}{Convolution of stride 2}
+        %        \label{fig:convstridetwo}
+        %    \end{minipage}
+        %    \end{figure}
+        %    
+        %    Itemize:
+        %    \begin{itemize}
+        %        \item Convolution layer for analyzing pattern in the image.
+        %        \item Max Pooling layer to reduce the dimension of the input.
+        %        \item Fully Connected layer to detect global configurations of the features extracted by the convolution layers.
+        %        \item Softmax layer for classification.
+        %    \end{itemize}
+        %    
+        %    Referencing the above Figure~\ref{fig:tripletnetwork}.
+        %    \begin{figure}[ht]
+        %        \centering
+        %        \includegraphics[width=0.5\textwidth]{epita_logo.png}
+        %        \caption{Offline Triplet Mining Schema.}
+        %        \label{fig:tripletnetwork}
+        %    \end{figure}
+        %    
+        %    Complex formula:
+        %    \begin{equation}
+        %    %\scalebox{1.00}{
+        %        \begin{gathered}
+        %            \displaystyle{w _ { i } ^ { + } = \left( d \left( \boldsymbol { f } _ { a }, \boldsymbol { f } _ { i } \right) + 1\right) ^ { \alpha }
+        %            \quad ~~~~\text { if } \boldsymbol { f } _ { i } \in \boldsymbol { S } _ { a } ^ { + },} \\
+        %            \displaystyle{w _ { j } ^ { - } = \left( d \left( \boldsymbol { f } _ { a } , \boldsymbol { f } _ { j } \right) + 1 \right) ^ { - 2 \alpha } \quad \text { if } \boldsymbol { f } _ { j } \in \boldsymbol { S } _ { a } ^ { - }}
+        %        \end{gathered}%}
+        %        \label{eq:batchhard}
+        %    \end{equation}
+        %    
+        %    A nice table:
+        %    \begin{figure}[ht]
+        %        \centering
+        %        \noindent\resizebox{\textwidth}{!}{%
+        %        \begin{tabular}{|| l | c | c | c | l | c ||}
+        %            \hline
+        %            Method & mAP (\%) & Rank-1 & Rank-5 & Model & Year\\
+        %            \hline
+        %            \hline
+        %            FACT+Plate+SNN+STR  & 27.77 & 61.44 & 78.78 & None & 2015 \\
+        %            \hline
+        %            OIFE-4-Views & 48.00 & 89.43 & ? & Custom & 2017 \\
+        %            \hline
+        %            VAMI & 50.13 & 77.03 & 90.82 & Custom & 2018 \\
+        %            \hline
+        %            Siamese-CNN+Path-LSTM  & 58.27 & 83.49 & 90.04 & RN50+LSTM & 2017 \\
+        %            \hline
+        %            Semihard+softmax+AIC  & 57.43 & 86.29 & 94.39 & RN50 & 2018\\
+        %            \hline
+        %            GAN+LSRO & 58.23 & 87.70 & 93.92 & RN50+DCGAN & 2018 \\
+        %            \hline
+        %            RAM-Multi-Learners  & 61.50 & 88.60 & 94.00 & VGG19x4 & 2018 \\
+        %            \Xhline{4\arrayrulewidth}
+        %            Baseline  ~~~~~~~~~~~~~~~~~($\boldsymbol{Ours}$)& 53.78 & 81.46 & 91.47 & RN50 & 2018\\
+        %            \hline
+        %            Hap2s+softmax \cite{spacetimeprior}+ ($\boldsymbol{Ours}$) & 56.85 & 84.80 & 92.43 & RN50 & 2018\\
+        %            \hline
+        %        \end{tabular}}
+        %        \captionof{table}{Comparison with the related works on VeRi-776 }\label{fig:scores}
+        %    \end{figure}
+% - Limitation
+\printglossaries
+
+\bibliographystyle{plain}
+\bibliography{biblist}
+\end{document}
