@@ -19,8 +19,8 @@
 \usepackage{makecell}
 \usepackage{subcaption}
 \usepackage[page]{appendix}
-\usepackage{minted}
 \usepackage{verbatim}
+\usepackage{minted}
 \setcounter{secnumdepth}{4}
 
 \usepackage{hyperref}
@@ -34,6 +34,7 @@
 }
 %\renewcommand*{\glstextformat}[1]{\textcolor{black}{#1}}
 \renewcommand{\glstextformat}[1]{\textit{#1}}
+\definecolor{light-gray}{gray}{0.95}
 
 
 \setmarginsrb{3 cm}{2.5 cm}{3 cm}{2.5 cm}{1 cm}{1.5 cm}{1 cm}{1.5 cm}
@@ -101,13 +102,133 @@
 }
 \pagebreak
 
+\renewcommand{\theFancyVerbLine}{
+  \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Exploratory data analysis}
-    \section{Section 1}
+\chapter{Python}
+    \section{Basics}
+        \subsection{Read \& Write}
+            Read csv with Pandas:
+            \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
+    import pandas as pd
+    df = pd.read_csv(csv_path, sep=',')
+            \end{minted}
+            
+            Read excel with Pandas:
+            \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
+    import pandas as pd
+    df = pd.read_excel(data_path)
+            \end{minted}
+    \section{Training}
+        Make train test split:
+        \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
+    from sklearn.model_selection import train_test_split
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33,
+                                                        random_state=42)
+        \end{minted}
+        
+        Standardize the data:
+        \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
+    from sklearn.preprocessing import StandardScaler
+    X = StandardScaler().fit_transform(X)
+        \end{minted}
+        
+        
+    \section{PyTorch}
+        Common tensor operations:
+        \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
+    import torch
+    tsr = torch.ones((10, 20), dtype=torch.float32)
+    tsr = torch.from_numpy(array)           # Convert a numpy array to a tensor
+    tsr.unsqueeze(1)                        # Add a dimension to a tensor
+    tsr.squeeze(0)                          # Remove a dimension to a tensor
+    res = t_1.mm(t_2)                       # Matrix multiplication
+    tsr = tsr.T                             # Perform the transpose of a tensor
+    tsr = torch.cat([t_1, t_2], dim=1)      # Concatenate two tensors
+    tsr = tsr.inverse()                     # Computes the inverse of a tensor
+    tsr = tsr.abs()                         # Computes the absolute value
+    tsr = tsr.sqrt()                        # Computes the squared root
+    tsr = tsr.var()                         # Computes the variance
+    tsr = tsr.mean()                        # Computes the mean
+    tsr = torch.exp(tsr)                    # Computes the exponential of tensor
+    tsr = torch.log(tsr)                    # Computes the logarithm of tensor
+    tsr = tsr.clone()                       # Creates a copy of a tensor
+    tsr[tsr > 1] = 1                        # Set elements based on a condition
+        \end{minted}
+        
+        Covariance:
+        \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
+    def covariance(t_1, t_2):
+        t_1 -= t_1.mean(axis=1, keepdim=True)
+        t_2 -= t_2.mean(axis=1, keepdim=True)
+        fact = 1 / (t_1.shape[0] - 1)
+        return fact * t_1.T.mm(t_2)
+        \end{minted}
+    \section{Exploratory data analysis}
+        Two distribution plots side by side:
+        \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
+    import matplotlib.pyplot as plt
+    import seaborn as sns
     
+    fig, (ax_1, ax_2) = plt.subplots(1, 2, figsize=(10, 4))
+    sns.distplot(data[0], bins=50, hist=True, ax=ax_1)
+    sns.distplot(data[1], bins=50, hist=True, ax=ax_2)
+        \end{minted}
+            
+        Heatmap with annotations and squared cells:
+        \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
+    plt.figure(figsize=(16, 8))
+    sns.heatmap(df.corr(), squared=True, annot=True, fmt='.2f')
+        \end{minted}
+        
+        Plot points in 2D using scatter:
+        \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
+    plt.scatter(x, y)
+    plt.xlabel('Title x')
+    plt.ylabel('Title y')
+        \end{minted}
+        
+        Pairwise plot to visualize the correlation of the features:
+        \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
+    pp = sns.pairplot(df, height=1.8, aspect=1.8,
+                      plot_kws=dict(edgecolor='k', linewidth=0.5),
+                      diag_kind='kde', diag_kws=dict(shade=True))
+    pp.fig.subplots_adjust(top=0.93, wspace=0.3)
+    
+        \end{minted}
+        
+        Plot an histogram for each feature:
+        \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
+    df.hist(bins=14, color='steelblue', edgecolor='black', linewidth=1.0,
+            xlabelsize=8, ylabelsize=8, grid=False)
+    plt.tight_layout(rect=(0, 0, 1.2, 1.2))
+        \end{minted}
+        
+        Set x and y labels:
+        
+        \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
+    fig, ax = plt.subplots()
+    ax.set_xlabel('X label', fontsize=12)
+    ax.set_ylabel('Y label', fontsize=12)
+        \end{minted}
+        
+        Plot stats of a DataFrame:
+        \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
+    df.describe()
+        \end{minted}
+        
+        Count values of a discrete feature:
+        \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
+    sns.countplot(x='Column Name', data=df)
+        \end{minted}
+        
+        Boxplot for ploting the relation between a discrete and a continuous feature:
+        \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
+    sns.boxplot(x='Discrete', y='Continuous', orient='h', data=df)
+        \end{minted}
 \chapter{Machine Learning}
 \chapter{Deep Learning}
-
     
         %A figure
         %\begin{figure}[ht]
