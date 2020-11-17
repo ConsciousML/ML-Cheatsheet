@@ -134,6 +134,36 @@
     X = StandardScaler().fit_transform(X)
         \end{minted}
         
+        Print a classification report and a confusion matrix:
+        \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
+    from sklearn.metrics import classification_report
+    from sklearn.metrics import confusion_matrix
+    confusion_matrix(y_true, y_pred)
+    classification_report(y_true, y_pred)
+        \end{minted}
+        
+        Cross validation:
+        \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
+    from sklearn.model_selection import cross_val_score
+    acc = cross_val_score(model, X, y, scoring='accuracy', cv=5).mean()
+        \end{minted}
+        
+        Convert category to integer:
+        \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
+    from sklearn.preprocessing import LabelEncoder
+    y = LabelEncoder().fit_transform(y)
+        \end{minted}
+        
+        
+        
+    \section{Numpy}
+        Common numpy operations:
+        \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
+        np.vstack(arr_1, arr_2)         # Stack element in the vertical axis
+        np.hstack(arr_1, arr_2)         # Stack element in the horizontal axis
+        np.random.uniform(r_1, r_2, size)
+        np.random.multivariate_normal(mean, cov, size)
+        \end{minted}
         
     \section{PyTorch}
         Common tensor operations:
@@ -141,6 +171,7 @@
     import torch
     tsr = torch.ones((10, 20), dtype=torch.float32)
     tsr = torch.from_numpy(array)           # Convert a numpy array to a tensor
+    tsr = torch.FloatTensor(list)           # Convert a list to a tensor
     tsr.unsqueeze(1)                        # Add a dimension to a tensor
     tsr.squeeze(0)                          # Remove a dimension to a tensor
     res = t_1.mm(t_2)                       # Matrix multiplication
@@ -150,11 +181,27 @@
     tsr = tsr.abs()                         # Computes the absolute value
     tsr = tsr.sqrt()                        # Computes the squared root
     tsr = tsr.var()                         # Computes the variance
+    tsr = tsr.std()                         # Computes the standard deviation
     tsr = tsr.mean()                        # Computes the mean
     tsr = torch.exp(tsr)                    # Computes the exponential of tensor
     tsr = torch.log(tsr)                    # Computes the logarithm of tensor
+    tsr = torch.pow(2)                      # Computes the power of a tensor
     tsr = tsr.clone()                       # Creates a copy of a tensor
     tsr[tsr > 1] = 1                        # Set elements based on a condition
+    tsr.bincount()                          # Returns the bincount of a tensor
+    tsr.argmax()                            # Returns the argmax of a tensor
+    tsr.max()                               # Returns the max value of a tensor
+    tsr.unique()                            # Returns the unique values of a tensor
+    torch.where(tsr > 0)                    # Returns elements based on a condition
+                                            # as a tuple if 2D
+    tsr.scatter_(dim=1, index, src)         # Replace values ad index by src
+    torch.randint(0, 10, shape)             # Sample random int in a range
+        \end{minted}
+        
+        Create a random tensor in a range:
+        \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
+    def randvec(r1, r2, shape):
+        return (r1 - r2) * torch.rand(shape) + r2
         \end{minted}
         
         Covariance:
@@ -205,18 +252,16 @@
     plt.tight_layout(rect=(0, 0, 1.2, 1.2))
         \end{minted}
         
-        Set x and y labels:
+        Set x and y labels and x, y range:
         
         \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
     fig, ax = plt.subplots()
     ax.set_xlabel('X label', fontsize=12)
     ax.set_ylabel('Y label', fontsize=12)
+    ax.set_xlim(-10, 35)
+    ax.set_ylim(-10, 35)
         \end{minted}
         
-        Plot stats of a DataFrame:
-        \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
-    df.describe()
-        \end{minted}
         
         Count values of a discrete feature:
         \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
@@ -226,6 +271,33 @@
         Boxplot for ploting the relation between a discrete and a continuous feature:
         \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
     sns.boxplot(x='Discrete', y='Continuous', orient='h', data=df)
+        \end{minted}
+        
+        Barplot for ploting the mean of each discrete feature:
+        \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
+    sns.barplot(x='Discete', y='Continuous', palette='hot', data=df)
+        \end{minted}
+        
+        Plot a pie:
+        \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
+    def plot_pie(data, column='col_name', ax):
+        counts = data[column].value_counts()
+        percent = (counts * 100) / counts.sum()
+        labels = counts.index
+        ax.pie(x=percent, labels=labels, autopct='%1.0%%')
+        \end{minted}
+        
+        
+        DataFrame operations:
+        \begin{minted}[linenos,frame=lines,framesep=2mm,bgcolor=light-gray,fontsize=\footnotesize]{python}
+    df.describe()                               # Plot stats of each columns
+    df = pd.concat([df_1, df_2], axis=0)        # Concatenate two DataFrame
+    df['new_col'] = df['col_1'] + df['col_2']   # Create a new column
+    df = df.drop(columns=['col_1', 'col_2'])    # Delete columns
+    df.loc[df['col_1'] > 1, 'col_2']            # Retrive a column based on a 
+                                                # condition over another column
+    df.iloc[:, :-1]                             # Same loc but index based
+                                                # instead of label based
         \end{minted}
 \chapter{Machine Learning}
 \chapter{Deep Learning}
