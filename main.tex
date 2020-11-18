@@ -38,7 +38,7 @@
 
 
 \setmarginsrb{3 cm}{2.5 cm}{3 cm}{2.5 cm}{1 cm}{1.5 cm}{1 cm}{1.5 cm}
-\title{ML Cheatsheet}								% Title
+\title{Interview Cheatsheet}								% Title
 \author{Axel Mendoza}								% Author
 \date{November 17, 2020}											% Date
 
@@ -300,6 +300,29 @@
                                                 # instead of label based
         \end{minted}
 \chapter{Machine Learning}
+    \section{Bias Variance Trade-off}
+        The \textbf{bias-variance tradeoff} is the conflict in trying to minimize the bias and variance error simultaneously that prevents supervised models to generalize.
+        It is call a trade-off as a model with low bias will have high variance and vice versa.
+        
+        The \textbf{bias error} is an error from erroneous assumption during the learning process. High bias causes an algorithm to miss relevant relations between features and targets  (underfitting) and be \textbf{consistent} across different datasets.
+        
+        The \textbf{variance} error is an error from sensitivity to small fluctuations in the training set. High variance causes an algorithm to model the noise of the training data and have very \textbf{inconsistent} results across different datasets.
+    
+    \section{Discriminative and Generative models}
+        A \textbf{discriminative} model tries to learn the boundary between classes whereas a \textbf{generative model} tries to learn the actual distribution of each class.
+        Both are learning different probabilities. The generative model learns the joint probability $p(x, y)$ and the discriminative model learns the conditional probability $p(y|x)$
+        
+    \section{Regularization}
+        \textbf{Regularization} is any modification we make to a learning algorithm that is intended to reduce its generalization error but not its training error.
+        We can regularize neural networks with the \textbf{L2} regularization (weight decay) penalizes the squared value of the weights such as:
+        \begin{equation}
+            \text{Cost function} = \text{Loss} + \frac{\lambda}{2} \sum \boldsymbol{w}^2
+        \end{equation}
+        The \textbf{L1} regularization is utilized when we want to compress our model as it allows the weights to be reduced to zero:
+        \begin{equation}
+            \text{Cost function} = \text{Loss} + \frac{\lambda}{2} \sum |\boldsymbol{w}|
+        \end{equation}
+        \textbf{Dropout} randomly avoids some neurons to contribute to the training to avoid overfitting.
 \chapter{Deep Learning}
     
         %A figure
